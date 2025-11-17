@@ -143,8 +143,8 @@ const App: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-6 md:p-10 transform transition-all duration-300">
             <div className="text-center mb-8">
               <WhatsAppLogo className="w-16 h-16 mx-auto mb-4" />
-              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Send a WhatsApp Message to Any Number</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-2">Instantly start a chat without saving them to your contacts.</p>
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Quick WhatsApp</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-2">Send a WhatsApp message to any number without saving the number.</p>
             </div>
             
             <div className="space-y-6">
