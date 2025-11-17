@@ -1,6 +1,0 @@
-# Allow all web crawlers to access all content
-User-agent: *
-Allow: /
-
-# Point crawlers to the sitemap
-Sitemap: https://quick-whatsapp-sender.com/sitemap.xml

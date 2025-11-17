@@ -1,7 +1,0 @@
-{
-  "name": "Quick WhatsApp Sender",
-  "description": "An application that allows users to quickly open a WhatsApp chat with any phone number without saving the contact first. It features a responsive design with both light and dark modes.",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
-}

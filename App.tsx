@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import ThemeToggle from './components/ThemeToggle';
 import { COUNTRIES } from './constants/countries';
+import whatsAppLogo from './assets/whatsapp-logo.svg';
 
 // Use a direct image link to the official SVG as requested.
 const WhatsAppLogo: React.FC<{ className?: string }> = ({ className }) => (
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" className={className} />
+    <img src={whatsAppLogo} alt="WhatsApp Logo" className={className} />
 );
 
 // This is the phone icon part of the official logo, for use in buttons.
