@@ -182,6 +182,7 @@ const App: React.FC = () => {
           <footer className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
               <p>
                   &copy; {new Date().getFullYear()} Quick WhatsApp.
+                  <a href="https://github.com/mwatney-mars/Quick-Whatsapp" target="_blank" rel="noopener noreferrer" className="ml-2 underline hover:text-primary-500">GitHub</a>
                   <button onClick={() => setPrivacyModalOpen(true)} className="ml-2 underline hover:text-primary-500">
                     Privacy Notice
                   </button>
