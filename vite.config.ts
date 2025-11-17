@@ -9,6 +9,12 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
       },
+      preview: {
+        host: '0.0.0.0',
+        port: 80,
+        strictPort: true,
+        allowedHosts: ['quickwhatsapp.mwatney.com'],
+      },
       plugins: [react()],
       resolve: {
         alias: {
