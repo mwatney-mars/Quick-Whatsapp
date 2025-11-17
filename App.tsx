@@ -144,7 +144,7 @@ const App: React.FC = () => {
             <div className="text-center mb-8">
               <WhatsAppLogo className="w-16 h-16 mx-auto mb-4" />
               <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Quick WhatsApp</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-2">Send a WhatsApp message to any number without saving the number.</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-2">Send WhatsApp messages to new numbers without adding them as contacts</p>
             </div>
             
             <div className="space-y-6">
