@@ -1,0 +1,7 @@
+services:
+  quick-whatsapp:
+    container_name: quick-whatsapp    
+    image: gutolm/quick-whatsapp:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
