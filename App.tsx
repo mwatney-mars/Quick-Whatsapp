@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import ThemeToggle from './components/ThemeToggle';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import { COUNTRIES } from './constants/countries';
 import whatsAppLogo from './assets/whatsapp-logo.svg';
+import { useTranslation, Trans } from 'react-i18next';
 
 // Use a direct image link to the official SVG as requested.
 const WhatsAppLogo: React.FC<{ className?: string }> = ({ className }) => (
@@ -17,6 +19,8 @@ const WhatsAppIcon: React.FC<{className?: string}> = ({className}) => (
 
 
 const PrivacyModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+    const { t } = useTranslation();
+
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -31,28 +35,25 @@ const PrivacyModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" aria-modal="true" role="dialog">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full m-4" onClick={(e) => e.stopPropagation()}>
                 <div className="p-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Privacy Notice</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('privacy_notice_title')}</h2>
                     <div className="text-gray-600 dark:text-gray-300 space-y-4">
                         <p>
-                            <strong>No Data Storage:</strong> This application is a client-side tool. We do not store, track, or share any phone numbers you enter. All operations happen exclusively within your browser.
+                            <strong>{t('privacy_no_data_title')}</strong> {t('privacy_no_data_text')}
                         </p>
                         <p>
-                            <strong>Not Affiliated with WhatsApp:</strong> This is an independent tool and is not affiliated, associated, authorized, or endorsed by WhatsApp Inc.
+                            <strong>{t('privacy_not_affiliated_title')}</strong> {t('privacy_not_affiliated_text')}
                         </p>
                         <p>
-                            <strong>Geolocation (Optional):</strong> To make things easier, we ask for your location to automatically suggest your country's dialing code. This is completely optional. If you grant permission, your coordinates are sent to the free{' '}
-                            <a href="https://nominatim.org/privacy.html" target="_blank" rel="noopener noreferrer" className="text-primary-500 hover:underline">
-                                Nominatim service by OpenStreetMap
-                            </a> to determine your country. We do not store your location.
+                            <strong>{t('privacy_geolocation_title')}</strong> <Trans i18nKey="privacy_geolocation_text" components={{ 1: <a href="https://nominatim.org/privacy.html" target="_blank" rel="noopener noreferrer" className="text-primary-500 hover:underline" /> }} />
                         </p>
                          <p>
-                            <strong>Local Storage:</strong> We use your browser's <code>localStorage</code> to save your theme preference (light or dark mode). This is for your convenience and is not used for tracking.
+                            <strong>{t('privacy_local_storage_title')}</strong> {t('privacy_local_storage_text')}
                         </p>
                     </div>
                 </div>
                 <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-lg text-right">
                     <button onClick={onClose} className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                        Got it
+                        {t('privacy_button_got_it')}
                     </button>
                 </div>
             </div>
@@ -62,6 +63,7 @@ const PrivacyModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
   const [fullNumber, setFullNumber] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isPrivacyModalOpen, setPrivacyModalOpen] = useState(false);
@@ -107,17 +109,17 @@ const App: React.FC = () => {
   const handleSend = useCallback(() => {
     const trimmedNumber = fullNumber.trim();
     if (!trimmedNumber) {
-      setError('Phone number cannot be empty.');
+      setError(t('error_empty'));
       return;
     }
     if (!trimmedNumber.startsWith('+')) {
-      setError('Number must start with a country code (e.g., +1).');
+      setError(t('error_invalid_start'));
       return;
     }
     
     const digitsOnly = trimmedNumber.replace(/\D/g, '');
     if (digitsOnly.length < 5) { // Basic validation for number length
-        setError('Please enter a valid phone number.');
+        setError(t('error_invalid_length'));
         return;
     }
     
@@ -125,7 +127,7 @@ const App: React.FC = () => {
 
     const url = `https://wa.me/${digitsOnly}`;
     window.open(url, '_blank', 'noopener,noreferrer');
-  }, [fullNumber]);
+  }, [fullNumber, t]);
 
   const handlePhoneNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (error) setError(null);
@@ -136,21 +138,22 @@ const App: React.FC = () => {
     <>
       {isPrivacyModalOpen && <PrivacyModal onClose={() => setPrivacyModalOpen(false)} />}
       <div className="min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-300">
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
         </div>
         <div className="w-full max-w-md">
           <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-6 md:p-10 transform transition-all duration-300">
             <div className="text-center mb-8">
               <WhatsAppLogo className="w-16 h-16 mx-auto mb-4" />
-              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Quick WhatsApp</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-2">Send WhatsApp messages to new numbers without adding them as contacts</p>
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{t('app_title')}</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-2">{t('app_subtitle')}</p>
             </div>
             
             <div className="space-y-6">
               <div>
                   <label htmlFor="full-phone-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Full Phone Number
+                      {t('label_full_phone_number')}
                   </label>
                   <div className="rounded-md shadow-sm">
                       <input
@@ -163,7 +166,7 @@ const App: React.FC = () => {
                                   handleSend();
                               }
                           }}
-                          placeholder="+1 555 123 4567"
+                          placeholder={t('placeholder_phone_number')}
                           className="block w-full rounded-md border-0 py-2.5 px-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                       />
                   </div>
@@ -175,16 +178,16 @@ const App: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 bg-whatsapp hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 focus:ring-green-500 transition-transform transform hover:scale-105 duration-200"
               >
                   <WhatsAppIcon className="w-5 h-5" />
-                  <span>Send Message</span>
+                  <span>{t('button_send_message')}</span>
               </button>
             </div>
           </div>
           <footer className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
               <p>
-                  &copy; {new Date().getFullYear()} Quick WhatsApp.
-                  <a href="https://github.com/mwatney-mars/Quick-Whatsapp" target="_blank" rel="noopener noreferrer" className="ml-2 underline hover:text-primary-500">GitHub</a>
+                  &copy; {new Date().getFullYear()} {t('footer_copyright')}
+                  <a href="https://github.com/mwatney-mars/Quick-Whatsapp" target="_blank" rel="noopener noreferrer" className="ml-2 underline hover:text-primary-500">{t('footer_github')}</a>
                   <button onClick={() => setPrivacyModalOpen(true)} className="ml-2 underline hover:text-primary-500">
-                    Privacy Notice
+                    {t('footer_privacy_notice')}
                   </button>
               </p>
           </footer>
